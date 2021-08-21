@@ -14,6 +14,10 @@ const Home = () => {
     setInput(ev.target.value);
   };
 
+  const onRadioSearch = ev => {
+    setSearchOption(ev.target.value);
+  };
+
   const onSearch = () => {
     apiGet(`/search/${searchOption}?q=${input}`).then(result =>
       setResult(result)
@@ -22,10 +26,6 @@ const Home = () => {
 
   const onKeyDown = ev => {
     if (ev.keyCode === 13) onSearch();
-  };
-
-  const onRadioSearch = ev => {
-    setSearchOption(ev.target.value);
   };
 
   const renderResult = () => {
@@ -48,10 +48,6 @@ const Home = () => {
         onKeyDown={onKeyDown}
         value={input}
       />
-      <button type="button" onClick={onSearch}>
-        Search
-      </button>
-
       <div>
         <label htmlFor="show-search">
           Shows
@@ -75,6 +71,10 @@ const Home = () => {
           />
         </label>
       </div>
+
+      <button type="button" onClick={onSearch}>
+        Search
+      </button>
 
       {renderResult()}
     </MainPageLayout>
