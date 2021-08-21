@@ -1,10 +1,15 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useReducer, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Cast from '../Components/show/Cast';
+import Details from '../Components/show/Details';
+import Seasons from '../Components/show/Seasons';
+import ShowMainData from '../Components/show/ShowMainData';
 import { apiGet } from '../misc/config';
 
 const reducer = (prevState, action) => {
-  switch (action) {
-    case 'FECTH_SUCCESS': {
+  switch (action.type) {
+    case 'FETCH_SUCCESS': {
       return { ...prevState, isLoading: false, show: action.show };
     }
     case 'FETCH_FAILED': {
@@ -32,7 +37,7 @@ const Show = () => {
   let isMounted = true;
 
   useEffect(() => {
-    apiGet(`/shows/${id}?embeded[]=seasons&embeded[]=cast`)
+    apiGet(`/shows/${id}?embed[]=seasons&embed[]=cast`)
       .then(result => {
         if (isMounted) {
           dispatch({ type: 'FETCH_SUCCESS', show: result });
@@ -49,12 +54,39 @@ const Show = () => {
     };
   }, [id]);
 
-  console.log('show', show);
-
   if (isLoading) return <div>Data is being Loading.....</div>;
   if (error) return <div>Error ocurred: {error}</div>;
 
-  return <div>This is show page</div>;
+  return (
+    <div>
+      <ShowMainData
+        id={show.externals.imdb}
+        name={show.name}
+        image={show.image}
+        rating={show.rating}
+        summary={show.summary}
+        genres={show.genres}
+      />
+      <div>
+        <h2>Details</h2>
+        <Details
+          status={show.status}
+          network={show.network}
+          premiered={show.premiered}
+        />
+      </div>
+
+      <div>
+        <h2>Seasons</h2>
+        <Seasons seasons={show._embedded.seasons} />
+      </div>
+
+      <div>
+        <h2>Cast</h2>
+        <Cast cast={show._embedded.cast} />
+      </div>
+    </div>
+  );
 };
 
 export default Show;
