@@ -42,14 +42,16 @@ const Starred = () => {
   return (
     <MainPageLayout>
       {isLoading && (
-        <div>
+        <div style={{ color: '#2400ff' }}>
           Favourite Shows are being Loading.... <br />
           Plaese wait for a while!!
         </div>
       )}
-      {error && <div>Error Occurred: {error}</div>}
+      {error && <div style={{ color: '#2400ff' }}>Error Occurred: {error}</div>}
       {!isLoading && !shows && (
-        <div>No Show has been added to favourites!!!</div>
+        <div style={{ textAlign: 'center', color: '#2400ff' }}>
+          No Show has been added to favourites!!!
+        </div>
       )}
       {!isLoading && !error && shows && <ShowGrid data={shows} />}
     </MainPageLayout>
