@@ -12,8 +12,10 @@ const Show = () => {
   const { id } = useParams();
   const { show, isLoading, error } = useShowRender(id);
 
-  if (isLoading) return <div>Data is being Loading.....</div>;
-  if (error) return <div>Error ocurred: {error}</div>;
+  if (isLoading)
+    return <div style={{ color: '#2400ff' }}>Data is being Loading.....</div>;
+  if (error)
+    return <div style={{ color: '#2400ff' }}>Error ocurred: {error}</div>;
 
   return (
     <ShowPageWrapper>

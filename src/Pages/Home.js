@@ -36,7 +36,12 @@ const Home = () => {
   };
 
   const renderResult = () => {
-    if (results && results.length === 0) return <div>No Result Found</div>;
+    if (results && results.length === 0)
+      return (
+        <div style={{ textAlign: 'center', color: '#2400ff' }}>
+          No Result Found
+        </div>
+      );
     if (results && results.length > 0)
       return results[0].show ? (
         <ShowGrid data={results} />
