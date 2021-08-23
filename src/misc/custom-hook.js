@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { apiGet } from './config';
 
 function showReducer(preState, action) {
@@ -37,10 +37,13 @@ export function useLastQuery(key = 'LastQuery') {
     return persist ? JSON.parse(persist) : '';
   });
 
-  function usePersistedInput(newState) {
-    setInput(newState);
-    sessionStorage.setItem(key, JSON.stringify(newState));
-  }
+  const usePersistedInput = useCallback(
+    newState => {
+      setInput(newState);
+      sessionStorage.setItem(key, JSON.stringify(newState));
+    },
+    [key]
+  );
 
   return [input, usePersistedInput];
 }
@@ -86,4 +89,36 @@ export function useShowRender(showId) {
   }, [showId]);
 
   return state;
+}
+
+export function useWhyDidYouUpdate(name, props) {
+  // Get a mutable ref object where we can store props ...
+  // ... for comparison next time this hook runs.
+  const previousProps = useRef();
+  useEffect(() => {
+    if (previousProps.current) {
+      // Get all keys from previous and current props
+      const allKeys = Object.keys({ ...previousProps.current, ...props });
+      // Use this object to keep track of changed props
+      const changesObj = {};
+      // Iterate through keys
+      allKeys.forEach(key => {
+        // If previous is different from current
+        if (previousProps.current[key] !== props[key]) {
+          // Add to changesObj
+          changesObj[key] = {
+            from: previousProps.current[key],
+            to: props[key],
+          };
+        }
+      });
+      // If changesObj not empty then output to console
+      if (Object.keys(changesObj).length) {
+        // eslint-disable-next-line no-console
+        console.log('[why-did-you-update]', name, changesObj);
+      }
+    }
+    // Finally update previousProps with current props for next hook call
+    previousProps.current = props;
+  });
 }

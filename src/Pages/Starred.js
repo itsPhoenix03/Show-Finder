@@ -39,6 +39,7 @@ const Starred = () => {
         .catch(err => dispatch({ type: 'ERROR', error: err.massage }));
     } else dispatch({ type: '' });
   }, [starred]);
+
   return (
     <MainPageLayout>
       {isLoading && (

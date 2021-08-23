@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ActorGrid from '../Components/actor/ActorGrid';
 import CustomRadio from '../Components/CustomRadio';
 import MainPageLayout from '../Components/MainPageLayout';
@@ -11,19 +11,38 @@ import {
   SearchInput,
 } from './Home.styled';
 
+const renderResult = results => {
+  if (results && results.length === 0)
+    return (
+      <div style={{ textAlign: 'center', color: '#2400ff' }}>
+        No Result Found
+      </div>
+    );
+  if (results && results.length > 0)
+    return results[0].show ? (
+      <ShowGrid data={results} />
+    ) : (
+      <ActorGrid data={results} />
+    );
+  return null;
+};
+
 const Home = () => {
   const [input, setInput] = useLastQuery();
   const [results, setResult] = useState(null);
   const [searchOption, setSearchOption] = useState('shows');
   const isSearchShow = searchOption === 'shows';
 
-  const onInputChange = ev => {
-    setInput(ev.target.value);
-  };
+  const onInputChange = useCallback(
+    ev => {
+      setInput(ev.target.value);
+    },
+    [setInput]
+  );
 
-  const onRadioSearch = ev => {
+  const onRadioSearch = useCallback(ev => {
     setSearchOption(ev.target.value);
-  };
+  }, []);
 
   const onSearch = () => {
     apiGet(`/search/${searchOption}?q=${input}`).then(result =>
@@ -33,22 +52,6 @@ const Home = () => {
 
   const onKeyDown = ev => {
     if (ev.keyCode === 13) onSearch();
-  };
-
-  const renderResult = () => {
-    if (results && results.length === 0)
-      return (
-        <div style={{ textAlign: 'center', color: '#2400ff' }}>
-          No Result Found
-        </div>
-      );
-    if (results && results.length > 0)
-      return results[0].show ? (
-        <ShowGrid data={results} />
-      ) : (
-        <ActorGrid data={results} />
-      );
-    return null;
   };
 
   return (
@@ -88,7 +91,7 @@ const Home = () => {
         </button>
       </SearchButtonWrapper>
 
-      {renderResult()}
+      {renderResult(results)}
     </MainPageLayout>
   );
 };
