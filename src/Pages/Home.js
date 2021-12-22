@@ -60,7 +60,7 @@ const Home = () => {
     <MainPageLayout>
       <SearchInput
         type="text"
-        placeholder="Find your desired show..."
+        placeholder="Find your desired show/actor.."
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={input}
