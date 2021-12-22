@@ -6,13 +6,14 @@ export const TitleWrapper = styled.div`
 
   h1 {
     color: ${({ theme }) => theme.mainColors.blue};
-    letter-spacing: 10px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     margin: 0 0 10px;
   }
 
   p {
     color: ${({ theme }) => theme.mainColors.dark};
+    font-weight: bolder;
     margin: 0;
   }
 `;

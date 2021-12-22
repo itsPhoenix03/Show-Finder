@@ -10,6 +10,8 @@ export const NavList = styled.ul`
 `;
 
 export const LinkStyled = styled(Link)`
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   margin: 0 10px;
   padding: 3px 15px;
   position: relative;

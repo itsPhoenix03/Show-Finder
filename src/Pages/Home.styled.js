@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const SearchInput = styled.input`
   display: block;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   width: 200px;
   margin: auto;
   outline: none;

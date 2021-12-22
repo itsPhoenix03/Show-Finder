@@ -14,8 +14,10 @@ import {
 const renderResult = results => {
   if (results && results.length === 0)
     return (
-      <div style={{ textAlign: 'center', color: '#2400ff' }}>
-        No Result Found
+      <div
+        style={{ textAlign: 'center', color: '#2400ff', fontWeight: 'bolder' }}
+      >
+        Oops! No Result Found
       </div>
     );
   if (results && results.length > 0)
@@ -28,10 +30,10 @@ const renderResult = results => {
 };
 
 const Home = () => {
-  const [input, setInput] = useLastQuery();
+  const [input, setInput] = useLastQuery('');
   const [results, setResult] = useState(null);
   const [searchOption, setSearchOption] = useState('shows');
-  const isSearchShow = searchOption === 'shows';
+  const isShow = searchOption === 'shows';
 
   const onInputChange = useCallback(
     ev => {
@@ -58,7 +60,7 @@ const Home = () => {
     <MainPageLayout>
       <SearchInput
         type="text"
-        placeholder="search..."
+        placeholder="Find your desired show..."
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={input}
@@ -68,8 +70,8 @@ const Home = () => {
           <CustomRadio
             label="Shows"
             id="show-search"
-            value="show"
-            checked={isSearchShow}
+            value="shows"
+            checked={isShow}
             onChange={onRadioSearch}
           />
         </div>
@@ -79,15 +81,15 @@ const Home = () => {
             label="Actors"
             id="actor-search"
             value="people"
-            checked={!isSearchShow}
+            checked={!isShow}
             onChange={onRadioSearch}
           />
         </div>
       </RadioInputsWrapper>
 
       <SearchButtonWrapper>
-        <button type="button" onClick={onSearch}>
-          Search
+        <button type="button" onClick={onSearch} style={{ fontWeight: '600' }}>
+          Find
         </button>
       </SearchButtonWrapper>
 
