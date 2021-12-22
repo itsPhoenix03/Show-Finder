@@ -50,7 +50,13 @@ const Starred = () => {
       )}
       {error && <div style={{ color: '#2400ff' }}>Error Occurred: {error}</div>}
       {!isLoading && !shows && (
-        <div style={{ textAlign: 'center', color: '#2400ff' }}>
+        <div
+          style={{
+            textAlign: 'center',
+            color: '#2400ff',
+            fontWeight: 'bolder',
+          }}
+        >
           No Show has been added to favourites!!!
         </div>
       )}
